@@ -2,6 +2,10 @@
 
 const Hapi = require('hapi');
 const mongojs = require('mongojs');
+const swaggered = require('hapi-swaggered');
+const swaggeredUI = require('hapi-swaggered-ui');
+const vision = require('vision');
+const inert = require('inert');
 const db = require('./database').db;
 
 // Create a server with a host and port
