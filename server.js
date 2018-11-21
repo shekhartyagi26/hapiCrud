@@ -11,9 +11,6 @@ server.connection({
     port: 3000
 });
 
-// //Connect to db
-// server.app.db = mongojs('hapi-rest-mongo', ['books']);
-
 //Load plugins and start server
 server.register([
     require('./routes/books'),

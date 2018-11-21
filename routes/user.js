@@ -5,6 +5,8 @@ const Joi = require('joi');
 const User = require('../model.js/user');
 const bcrypt = require('bcryptjs');
 exports.register = function (server, options, next) {
+
+    // GET USER API
     server.route({
         method: 'GET',
         path: '/user',
@@ -22,6 +24,7 @@ exports.register = function (server, options, next) {
         }
     });
 
+    // GET USER BY ID
     server.route({
         method: 'GET',
         path: '/me/{id}',
@@ -44,6 +47,8 @@ exports.register = function (server, options, next) {
 
         }
     });
+
+    // SIGN UP USER API
 
     server.route({
         method: 'POST',
@@ -79,6 +84,8 @@ exports.register = function (server, options, next) {
             }
         }
     });
+
+    // LOGIN API
     server.route({
         method: 'POST',
         path: '/user/login',

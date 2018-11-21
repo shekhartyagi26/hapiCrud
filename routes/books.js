@@ -6,8 +6,7 @@ const Book = require('../model.js/book');
 
 exports.register = function (server, options, next) {
 
-    const db = server.app.db;
-
+    // GET BOOK API
     server.route({
         method: 'GET',
         path: '/books',
@@ -25,6 +24,7 @@ exports.register = function (server, options, next) {
         }
     });
 
+    // GET BOOK BY ID
     server.route({
         method: 'GET',
         path: '/books/{id}',
@@ -48,6 +48,7 @@ exports.register = function (server, options, next) {
         }
     });
 
+    // CREATE BOOK API
     server.route({
         method: 'POST',
         path: '/books',
@@ -83,6 +84,8 @@ exports.register = function (server, options, next) {
         }
     });
 
+    //UPDATE BOOK API
+
     server.route({
         method: 'PATCH',
         path: '/books/{id}',
@@ -116,6 +119,7 @@ exports.register = function (server, options, next) {
         }
     });
 
+    // DELETE BOOK API
     server.route({
         method: 'DELETE',
         path: '/books/{id}',
