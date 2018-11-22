@@ -2,7 +2,7 @@
 
 const Boom = require('boom');
 const UserController =require('../controller/user');
-const Validator = require('../schema/userSchema');
+const Validator = require('../schema/user');
 exports.register = function (server, options, next) {
     // instantiate controller
     const userController = new UserController(server.db);

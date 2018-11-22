@@ -14,7 +14,7 @@ server.connection({
 //Load plugins and start server
 server.register([
     require('./routes/books'),
-    require('./routes/userSchema')
+    require('./routes/user')
 ], (err) => {
 
     if (err) {

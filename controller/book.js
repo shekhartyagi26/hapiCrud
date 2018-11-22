@@ -55,7 +55,7 @@ function create (request, reply) {
     reply(book)
   })
   .catch((err) => {
-    reply.badImplementationmodel(err.message);
+    reply.badImplementation(err.message);
   });
 }
 
@@ -79,7 +79,7 @@ function destroy (request, reply) {
 
   this.model.remove({_id: id})
   .then(() => {
-    reply();
+    reply('Book deleteed successfully!');
   })
   .catch((err) => {
     reply.badImplementation(err.message);
