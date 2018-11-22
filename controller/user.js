@@ -26,7 +26,7 @@ function list (request, reply) {
     reply(user);
   })
   .catch((err) => {
-    reply.badImplementation(err.message);
+    reply(Boom.wrap(err, 'internal server error'));
   });
 }
 
@@ -43,7 +43,7 @@ function me (request, reply) {
     reply(user);
   })
   .catch((err) => {
-    reply.badImplementation(err.message);
+    reply(Boom.wrap(err, 'internal server err'))
   });
 }
 
@@ -62,7 +62,7 @@ async function create (request, reply) {
     reply(user)
   })
   .catch((err) => {
-    reply.badImplementation(err.message);
+    reply(Boom.wrap(err, 'internal server error'));
   });
 }
 
@@ -74,7 +74,7 @@ function logIn(request, reply) {
     email: credentials.email
   }).then((user) => {
     if (!bcrypt.compareSync(credentials.password, user.password)) {
-      return reply.notFound();
+      return reply(Boom.badImplementation('terrible implementation'));
     }
     reply(user);
   }).catch((err) => {

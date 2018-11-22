@@ -47,15 +47,15 @@ function details (request, reply) {
 }
 
 // [POST] /book
-function create (request, reply) {
+async function create (request, reply) {
   const payload = request.payload;
 
-  this.model.createAsync(payload)
+  this.model.create(payload)
   .then((book) => {
     reply(book)
   })
   .catch((err) => {
-    reply.badImplementation(err.message);
+    reply(Boom.wrap(err, 'internal server err'));
   });
 }
 
@@ -69,7 +69,7 @@ function update (request, reply) {
     reply(book);
   })
   .catch((err) => {
-    reply.badImplementation(err.message);
+    reply(Boom.wrap(err, 'internal server err'));
   });
 }
 
@@ -82,7 +82,7 @@ function destroy (request, reply) {
     reply('Book deleteed successfully!');
   })
   .catch((err) => {
-    reply.badImplementation(err.message);
+    reply(Boom.wrap(err, 'internal server err'));
   });
 }
 
