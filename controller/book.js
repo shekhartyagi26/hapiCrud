@@ -3,7 +3,8 @@
 
 const Book = require('../model/book');
 const Boom = require('boom');
-
+const apiHandler = require('../apiHandler');
+const Error = require('../errors')
 function BookController (db) {
   this.database = db;
   this.model = Book;
@@ -22,10 +23,10 @@ module.exports = BookController;
 function list (request, reply) {
   this.model.find({})
   .then((book) => {
-    reply(book);
+    apiHandler(request, reply, book)
   })
   .catch((err) => {
-    reply.badImplementation(err.message);
+    reply(Error.internal('internal server errors'));
   });
 }
 
@@ -39,24 +40,22 @@ function details (request, reply) {
       reply.notFound();
       return;
     }
-    reply(book);
+    apiHandler(request, reply, book)
   })
   .catch((err) => {
-    reply.badImplementation(err.message);
+    reply(Error.internal('internal server errors'));
   });
 }
 
 // [POST] /book
 async function create (request, reply) {
-  const payload = request.payload;
-
-  this.model.create(payload)
-  .then((book) => {
-    reply(book)
-  })
-  .catch((err) => {
-    reply(Boom.wrap(err, 'internal server err'));
-  });
+  try {
+     const payload = request.payload;
+     let result = await this.model.create(payload);
+     apiHandler(request, reply, result)
+  } catch(err) {
+      reply(Error.internal('internal server errors'));
+  }
 }
 
 // [PUT] /book
@@ -66,10 +65,10 @@ function update (request, reply) {
 
   this.model.findOneAndUpdate({_id: id}, {$set: payload}, {new: true})
   .then((book) => {
-    reply(book);
+    apiHandler(request, reply, book)
   })
   .catch((err) => {
-    reply(Boom.wrap(err, 'internal server err'));
+    reply(Error.internal('internal server errors'));
   });
 }
 
@@ -79,10 +78,10 @@ function destroy (request, reply) {
 
   this.model.remove({_id: id})
   .then(() => {
-    reply('Book deleteed successfully!');
+    apiHandler(request, reply, "book is deleted!")
   })
   .catch((err) => {
-    reply(Boom.wrap(err, 'internal server err'));
+    reply(Error.internal('internal server errors'));
   });
 }
 

@@ -5,6 +5,8 @@ const UserModel = require('../model/user');
 const bcrypt = require('bcryptjs');
 const Index = require('../utility/index');
 const Boom = require('boom')
+const apiHandler = require('../apiHandler')
+const Error = require('../errors')
 
 function UserController (db) {
   this.database = db;
@@ -23,10 +25,10 @@ module.exports = UserController;
 function list (request, reply) {
   this.model.find({})
   .then((user) => {
-    reply(user);
+    apiHandler(request, reply, user)
   })
   .catch((err) => {
-    reply(Boom.wrap(err, 'internal server error'));
+    reply(internal('internal server error'));
   });
 }
 
@@ -40,10 +42,10 @@ function me (request, reply) {
       reply.notFound();
       return;
     }
-    reply(user);
+    apiHandler(request, reply, user)
   })
   .catch((err) => {
-    reply(Boom.wrap(err, 'internal server err'))
+    reply(Error.internal('internal server err'))
   });
 }
 
@@ -59,10 +61,10 @@ async function create (request, reply) {
 
   this.model.create(user)
   .then((user) => {
-    reply(user)
+    apiHandler(request, reply, user)
   })
   .catch((err) => {
-    reply(Boom.wrap(err, 'internal server error'));
+    reply(Error.internal('internal server error'));
   });
 }
 
@@ -74,11 +76,11 @@ function logIn(request, reply) {
     email: credentials.email
   }).then((user) => {
     if (!bcrypt.compareSync(credentials.password, user.password)) {
-      return reply(Boom.badImplementation('terrible implementation'));
+       reply(Error.badRequest('terrible implementation'));
     }
-    reply(user);
+    apiHandler(request, reply, user)
   }).catch((err) => {
-    reply(Boom.wrap(err, 'internal server err'));
+    reply(Error.internal('internal server err'));
   });
 }
 
